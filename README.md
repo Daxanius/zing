@@ -34,7 +34,7 @@ sudo nano /etc/systemd/system/syszingd.service
 ```
 
 Then paste in the following configuration, feel free to modify it to your liking:
-```toml
+```ini
 [Unit]
 Description=System Zing Daemon
 After=network.target
