@@ -1,0 +1,19 @@
+[package]
+name = "sys-zing-daemon"
+version = "0.1.0"
+edition = "2024"
+authors = ["Daxanius"]
+
+[package.metadata.clippy]
+lints = ["clippy::pedantic"]
+
+[[bin]]
+name = "syszingd"
+path = "src/main.rs"
+
+[dependencies]
+derive_more = { workspace = true, features = [ "from", "error", "display" ] }
+zing-protocol = { path = "../zing-protocol" }
+env_logger = "0.11"
+beep = "0.3"
+log = "0.4"
