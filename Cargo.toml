@@ -1,0 +1,6 @@
+[workspace]
+resolver = "2"
+members = ["sys-zing-daemon", "zing-cli", "zing-protocol"]
+
+[workspace.dependencies]
+derive_more = { version = "2.0", features = [ "from", "error", "display" ] }
