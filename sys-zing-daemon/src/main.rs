@@ -1,4 +1,4 @@
-use log::{error, info};
+use log::{info, warn};
 use std::fs;
 use std::fs::Permissions;
 use std::io::prelude::*;
@@ -29,17 +29,16 @@ fn main() {
     for stream in listener.incoming() {
         match stream {
             Ok(stream) => {
-                let command = match decode_stream(stream) {
-                    Ok(command) => command,
+                match decode_stream(stream) {
+                    Ok(command) => {
+                        melody_player.handle_command(command);
+                    }
                     Err(e) => {
-                        error!("Failed to decode stream: {e}");
-                        return;
+                        warn!("Could not decode stream: {e}");
                     }
                 };
-
-                melody_player.handle_command(command);
             }
-            Err(e) => error!("Connection failed: {e}"),
+            Err(e) => warn!("Connection failed: {e}"),
         }
     }
 }
