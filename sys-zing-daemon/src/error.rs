@@ -1,4 +1,4 @@
-use derive_more::{ Display, Error };
+use derive_more::{Display, Error};
 
 pub type Result<T> = core::result::Result<T, Error>;
 
@@ -9,6 +9,6 @@ pub enum Error {
     Beep(beep::Error),
     Convert,
     LockPoisoned,
-    CouldNotJoinThread, 
+    CouldNotJoinThread,
     NoChordsProvided,
 }

@@ -1,4 +1,4 @@
-use derive_more::{ Display, From, Error };
+use derive_more::{Display, Error, From};
 
 pub type Result<T> = core::result::Result<T, Error>;
 
