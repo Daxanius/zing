@@ -77,13 +77,19 @@ fn get_chords(section: &str) -> Result<Vec<Chord>> {
     let mut section_chords: Vec<Chord> = Vec::new();
 
     for line in lines {
+        // Treat tags as comments
+        if line.starts_with('#') {
+            continue;
+        }
+
         // Remove the left-hand, right-hand part, it is irrelevant
         let value = match line.split(':').last() {
             Some(val) => val.trim(),
             None => continue,
         };
 
-        if value.is_empty() {
+        // Ignore any lines that do not have exactly 2 pipes
+        if value.is_empty() || value.matches('|').count() != 2 {
             continue;
         }
 

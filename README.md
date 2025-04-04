@@ -88,11 +88,14 @@ To provide an example of this format in action:
 ![Notemap Format Exampel Gif](https://lh3.googleusercontent.com/-YcLZY4pkdL0/WwWuPoSOYkI/AAAAAAACdro/ykwWpSSUHIc9mdTaIQGVbnQtY3LGo2_VwCLcBGAs/h200/how%2Bto%2Bread%2Band%2Bplay%2Bthe%2Bletter%2Bnotes.gif)
 
 ### Zing Tweaks
-Since the format was designed for humans to learn playing the piano, not for programs to interpret willy nilly, I had to establish some basic rules for zing. Any line containing at least 1 | will be interpreted as a zing line. This any other lines are considered comments.
+Since the format was designed for humans to learn playing the piano, not for programs to interpret willy nilly, I had to establish some basic rules for zing. Any line containing exactly 2 pipes (|) will be interpreted as a zing line, any other lines are considered comments. If you want to comment out a valid line, you can prefix it with '#'. It is recommended to do this for every comment.
 ```
-This is a comment and will be ignored by zing :)
+# This is a comment and will be ignored by zing :)
 5|--e----e------e---e----e--|
 4|eg-ebag-abegbg-eeg-ebag-ab|
+
+# This line was a failed attempt at making a melody :(
+# 4|eg-ebag-abegbg-eeg-ebag-ab|
 
 5|g---E---E----e------e---e-|
 4|egbg-eeg-ebag-abegbg-eeg-e|
