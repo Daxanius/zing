@@ -7,6 +7,10 @@ authors = ["Daxanius"]
 [package.metadata.clippy]
 lints = ["clippy::pedantic"]
 
+[lib]
+name = "zing"
+path = "src/lib.rs"
+
 [[bin]]
 name = "zing"
 path = "src/main.rs"
