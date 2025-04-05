@@ -1,7 +1,9 @@
-use serde::{Deserialize, Serialize};
+use bincode::{
+    Decode, Encode,
+    config::{self, Configuration},
+};
 use std::io::Write;
 use std::os::unix::net::UnixStream;
-use std::str::from_utf8;
 use std::time::Duration;
 
 pub use error::{Error, Result};
@@ -10,19 +12,19 @@ pub mod error;
 
 pub const SOCKET_PATH: &str = "/run/zingd.sock";
 
-#[derive(Serialize, Deserialize, Debug, Default, Clone)]
+#[derive(Encode, Decode, Debug, Default, Clone)]
 pub struct Chord {
     pub extended_duration: Duration,
     pub notes: Vec<u16>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Default)]
+#[derive(Encode, Decode, Debug, Default)]
 pub struct PlayData {
     pub chord_duration: Duration,
     pub chords: Vec<Chord>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Encode, Decode, Debug)]
 pub enum Command {
     Play(PlayData),
     Stop,
@@ -31,34 +33,32 @@ pub enum Command {
 }
 
 impl Command {
-    /// Deserializes a `Command` from a UTF-8 byte sequence.
+    /// Deserializes a `Command` from a byte sequence.
     ///
     /// Attempts to convert the given byte slice into a valid `Command` instance.
-    /// The bytes must represent a UTF-8 encoded JSON string matching the structure of `Command`.
-    ///
-    /// # Arguments
-    /// * `bytes` - A byte slice containing the serialized command data.
     ///
     /// # Errors
     /// Returns an error if:
-    /// - The byte slice contains invalid UTF-8 characters.
-    /// - The JSON structure is malformed or does not match the expected format.
+    /// - The sequence cannot be deserialized
     pub fn from_bytes(bytes: &[u8]) -> Result<Self> {
-        let s = from_utf8(bytes).map_err(Error::InvalidCharacters)?;
-        serde_json::from_str(s).map_err(Error::SerdeJson)
+        Ok(bincode::decode_from_slice(bytes, Self::get_config())
+            .map_err(Error::Decode)?
+            .0)
     }
 
-    /// Serializes the `Command` into a UTF-8 encoded JSON byte sequence.
+    /// Serializes the `Command` into a byte sequence
     ///
-    /// Converts the `Command` instance into a JSON string, then encodes it as a byte vector.
     /// This is typically used for sending commands over a socket or writing to a file.
     ///
     /// # Errors
     /// Returns an error if:
-    /// - The command cannot be serialized into JSON due to a serialization failure.
+    /// - The command cannot be serialized.
     pub fn as_bytes(&self) -> Result<Vec<u8>> {
-        let s = serde_json::to_string(self).map_err(Error::SerdeJson)?;
-        Ok(s.into_bytes())
+        bincode::encode_to_vec(self, Self::get_config()).map_err(Error::Encode)
+    }
+
+    fn get_config() -> Configuration {
+        config::standard()
     }
 }
 
@@ -66,9 +66,6 @@ impl Command {
 ///
 /// This function connects to the Unix socket specified by `SOCKET_PATH`
 /// and writes the given command as a byte stream.
-///
-/// # Arguments
-/// * `command` - The command to serialize and send to the daemon.
 ///
 /// # Errors
 /// Returns an error if:
