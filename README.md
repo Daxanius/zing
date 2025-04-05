@@ -1,4 +1,6 @@
 # Zing
+[![Rust](https://github.com/Daxanius/zing/actions/workflows/rust.yml/badge.svg)](https://github.com/Daxanius/zing/actions/workflows/rust.yml)
+
 Zing is a lightweight tool that lets you play music using your motherboard's internal POST speaker (buzzer). Unlike traditional sound cards, Zing directly controls the system buzzer to generate simple tones and melodies. Perfect for nostalgic beeps, chiptune-style music, or system notifications!
 
 ## Features
