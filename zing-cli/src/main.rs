@@ -3,7 +3,7 @@ use std::fs;
 use std::io::{self, Read};
 use zing_protocol::Command;
 
-use zing_cli::{Error, Result};
+use zing::{Error, Result};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -70,7 +70,7 @@ fn run() -> Result<()> {
                 buffer
             };
 
-            let data = zing_cli::chords_from_notemap(&notemap, &chord_duration)?;
+            let data = zing::chords_from_notemap(&notemap, &chord_duration)?;
 
             let play_data = zing_protocol::PlayData {
                 chord_duration: *chord_duration,

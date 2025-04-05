@@ -4,7 +4,7 @@ use std::fs::Permissions;
 use std::io::prelude::*;
 use std::os::unix::fs::PermissionsExt;
 use std::os::unix::net::{UnixListener, UnixStream};
-use sys_zing_daemon::MelodyPlayer;
+use syszingd::MelodyPlayer;
 use zing_protocol::Command;
 
 fn decode_stream(mut stream: UnixStream) -> Result<Command, String> {
