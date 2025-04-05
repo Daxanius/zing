@@ -20,6 +20,39 @@ const OCTAVES_F_SHARP: [u16; OCTAVES] = [23, 46, 92, 185, 369, 739, 1479, 2959, 
 const OCTAVES_G: [u16; OCTAVES] = [24, 49, 98, 196, 392, 783, 1567, 3135, 6271];
 const OCTAVES_G_SHARP: [u16; OCTAVES] = [25, 51, 103, 207, 415, 830, 1661, 3322, 6644];
 
+/// Parses a notemap string into a compressed sequence of `Chord`s.
+///
+/// A *notemap* is a textual representation of musical notes, where each line represents notes
+/// in a specific octave, played from left to right. Vertically aligned notes (in the same column)
+/// are played together as chords.
+///
+/// - Lowercase letters (`a`–`g`) represent natural notes (e.g., A, B, C, etc.).
+/// - Uppercase letters (`A`, `C`, `D`, `F`, `G`) represent sharp notes (e.g., A#, C#, etc.).
+/// - Numbers at the start of each line (e.g., `4|`, `5|`) indicate the octave.
+/// - Dashes (`-`) between notes represent timing (e.g., 5–6 dashes ≈ 1 second).
+/// - Comment lines starting with `#` and prefix labels like `RH`/`LH` are ignored.
+///
+/// The function interprets these lines, groups simultaneous notes into `Chord`s,
+/// and then compresses them by:
+/// - Removing empty chords (those with no notes),
+/// - Accumulating durations of empty chords.
+///
+/// # Arguments
+/// * `notemap` - A string containing the musical notation in notemap format.
+/// * `chord_duration` - The base duration to assign to each chord segment.
+///
+/// # Errors
+/// Returns an error if:
+/// - The notemap format is syntactically invalid or inconsistent.
+/// - The chord extraction fails due to unexpected note patterns.
+///
+/// # Example
+/// ```text
+/// 5|--e----e------e---e----e--|
+/// 4|eg-ebag-abegbg-eeg-ebag-ab|
+/// ```
+///
+/// This would produce a sequence of `Chord`s reflecting simultaneous and timed notes.
 pub fn chords_from_notemap(notemap: &str, chord_duration: &Duration) -> Result<Vec<Chord>> {
     let sections = get_sections(notemap);
     let chords: Vec<Chord> = get_all_chords(sections)?;
