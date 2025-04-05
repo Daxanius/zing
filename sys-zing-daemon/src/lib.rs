@@ -63,11 +63,8 @@ impl MelodyPlayer {
         trace!("Stopping melody");
 
         if let Some(melody) = &self.melody {
-            let mut melody = match melody.write() {
-                Ok(melody) => melody,
-                Err(_) => {
-                    return Err(Error::LockPoisoned);
-                }
+            let Ok(mut melody) = melody.write() else {
+                return Err(Error::LockPoisoned);
             };
 
             melody.stop();
@@ -91,11 +88,8 @@ impl MelodyPlayer {
         trace!("Pausing melody");
 
         if let Some(melody) = &self.melody {
-            let mut melody = match melody.write() {
-                Ok(melody) => melody,
-                Err(_) => {
-                    return Err(Error::LockPoisoned);
-                }
+            let Ok(mut melody) = melody.write() else {
+                return Err(Error::LockPoisoned);
             };
 
             melody.pause();
@@ -111,11 +105,8 @@ impl MelodyPlayer {
         trace!("Resuming melody");
 
         if let Some(melody) = &self.melody {
-            let mut melody = match melody.write() {
-                Ok(melody) => melody,
-                Err(_) => {
-                    return Err(Error::LockPoisoned);
-                }
+            let Ok(mut melody) = melody.write() else {
+                return Err(Error::LockPoisoned);
             };
 
             melody.resume();

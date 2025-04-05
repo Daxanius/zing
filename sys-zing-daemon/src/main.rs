@@ -28,16 +28,14 @@ fn main() {
     info!("Zing daemon running...");
     for stream in listener.incoming() {
         match stream {
-            Ok(stream) => {
-                match decode_stream(stream) {
-                    Ok(command) => {
-                        melody_player.handle_command(command);
-                    }
-                    Err(e) => {
-                        warn!("Could not decode stream: {e}");
-                    }
-                };
-            }
+            Ok(stream) => match decode_stream(stream) {
+                Ok(command) => {
+                    melody_player.handle_command(command);
+                }
+                Err(e) => {
+                    warn!("Could not decode stream: {e}");
+                }
+            },
             Err(e) => warn!("Connection failed: {e}"),
         }
     }

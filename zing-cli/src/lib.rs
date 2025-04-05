@@ -83,7 +83,7 @@ fn get_chords(section: &str) -> Result<Vec<Chord>> {
         }
 
         // Remove the left-hand, right-hand part, it is irrelevant
-        let value = match line.split(':').last() {
+        let value = match line.split(':').next_back() {
             Some(val) => val.trim(),
             None => continue,
         };
