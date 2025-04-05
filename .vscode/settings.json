@@ -1,3 +1,12 @@
 {
     "rust-analyzer.cargo.target": "x86_64-unknown-linux-gnu",
+    "cSpell.words": [
+        "boops",
+        "chiptune",
+        "nilly",
+        "notemap",
+        "Notemaps",
+        "syszingd",
+        "zingd"
+    ],
 }

@@ -58,7 +58,7 @@ fn get_sections(notemap: &str) -> Vec<String> {
         .collect()
 }
 
-/// Computes all of the chords, disgregarding accumulated time
+/// Computes all of the chords, disregarding accumulated time
 fn get_all_chords(sections: Vec<String>) -> Result<Vec<Chord>> {
     let mut chords: Vec<Chord> = Vec::new();
 
@@ -116,7 +116,7 @@ fn get_chords(section: &str) -> Result<Vec<Chord>> {
         // Resize with default chords to the size of the notes
         section_chords.resize_with(notes.len(), Chord::default);
 
-        // Go through all the notes and add them to the respecive chords
+        // Go through all the notes and add them to the respective chords
         for (index, note) in notes.as_bytes().iter().enumerate() {
             // Ignore dashes, they are not valid notes
             if *note == b'-' {
