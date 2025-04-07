@@ -15,8 +15,8 @@ pub mod melody;
 
 #[derive(Default)]
 pub struct MelodyPlayer {
-    melody: Option<Arc<RwLock<Melody>>>,
     play_handle: Option<JoinHandle<()>>,
+    melody: Option<Arc<RwLock<Melody>>>,
 }
 
 impl MelodyPlayer {

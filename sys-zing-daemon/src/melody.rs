@@ -4,11 +4,11 @@ use std::time::Duration;
 use zing_protocol::{Chord, PlayData};
 
 pub struct Melody {
+    chord_duration: Duration,
+    chords: Vec<Chord>,
     position: usize,
     is_playing: bool,
     was_stopped: bool,
-    chord_duration: Duration,
-    chords: Vec<Chord>,
 }
 
 impl Melody {

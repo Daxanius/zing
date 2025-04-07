@@ -8,6 +8,10 @@ use zing::{Error, Result};
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 struct Cli {
+    /// Optional subcommand (Play is default)
+    #[command(subcommand)]
+    command: Option<Commands>,
+
     /// Play a file or read from stdin if no file is provided
     #[arg(value_name = "FILE")]
     file: Option<String>,
@@ -15,10 +19,6 @@ struct Cli {
     /// The time per chord (e.g., "500ms", "2s", "1m")
     #[arg(short, long, default_value = "100ms")]
     chord_duration: humantime::Duration,
-
-    /// Optional subcommand (Play is default)
-    #[command(subcommand)]
-    command: Option<Commands>,
 }
 
 #[derive(Subcommand)]
